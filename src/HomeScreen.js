@@ -17,13 +17,15 @@ import {
   _fetchAllMealinfo,
   _fetchHomeMeallist,
   current_Meal_List,
+  get_page,
+  set_page,
 } from './infoFetch';
-//import MealItem from './components/MealItem';
+import MealItem from './components/MealItem';
 
 const HomeScreen = ({state, navigation}) => {
   let [spinner, set_spinner] = useState(false);
   let [spinnerText, set_spinnerText] = useState('');
-  //let [ItemList, set_ItemList] = useState([]);
+  let [ItemList, set_ItemList] = useState([]);
 
   useEffect(() => {
     // Anything in here is fired on component mount.
@@ -49,17 +51,45 @@ const HomeScreen = ({state, navigation}) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const collect_Initial_List = async () => {
     await _fetchAllMealinfo().then(async _fetchAllMealinfo_value => {
-      await console.log(' _fetchAllMealinfo ', _fetchAllMealinfo_value);
+      await console.log(' _fetchAllMealinfo_value ', _fetchAllMealinfo_value);
       await _fetchHomeMeallist().then(async _fetchHomeMeallist_value => {
         await console.log(
           ' _fetchHomeMeallist_value ',
           _fetchHomeMeallist_value,
         );
-        //set_ItemList(current_Meal_List);
+        set_ItemList(current_Meal_List);
         await isLoading(false, 'Loading');
       });
     });
     /**/
+  };
+
+  const onRefreshPressed = async () => {
+    await isLoading(true, 'Loading');
+    let init_page = await get_page();
+    await console.log(init_page);
+    switch (init_page) {
+      case 0:
+        await set_page(4);
+        await collect_Initial_List();
+        await console.log('Pressed onRefreshPressed');
+        break;
+      case 4:
+        await set_page(8);
+        await collect_Initial_List();
+        await console.log('Pressed onRefreshPressed');
+        break;
+      case 8:
+        await set_page(0);
+        await collect_Initial_List();
+        await console.log('Pressed onRefreshPressed');
+        break;
+      default:
+        await set_page(0);
+        await collect_Initial_List();
+        await console.log('Pressed onRefreshPressed');
+        break;
+    }
   };
 
   return (
@@ -76,14 +106,20 @@ const HomeScreen = ({state, navigation}) => {
             console.log('Pressed item1');
           }}
           style={Styles.item}>
-          <Text style={Styles.itemText}>{'item3'}</Text>
+          <MealItem
+            mealTitle={ItemList[0].title}
+            imageUri={ItemList[0].picture}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             console.log('Pressed item2');
           }}
           style={Styles.item}>
-          <Text style={Styles.itemText}>{'item2'}</Text>
+          <MealItem
+            mealTitle={ItemList[1].title}
+            imageUri={ItemList[1].picture}
+          />
         </TouchableOpacity>
       </View>
       <Divider width={height * 0.02} color={mealGREY} />
@@ -93,14 +129,20 @@ const HomeScreen = ({state, navigation}) => {
             console.log('Pressed item3');
           }}
           style={Styles.item}>
-          <Text style={Styles.itemText}>{'item3'}</Text>
+          <MealItem
+            mealTitle={ItemList[2].title}
+            imageUri={ItemList[2].picture}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             console.log('Pressed item4');
           }}
           style={Styles.item}>
-          <Text style={Styles.itemText}>{'item4'}</Text>
+          <MealItem
+            mealTitle={ItemList[3].title}
+            imageUri={ItemList[3].picture}
+          />
         </TouchableOpacity>
       </View>
       <Divider width={height * 0.04} color={mealGREY} />
@@ -108,7 +150,7 @@ const HomeScreen = ({state, navigation}) => {
       <TouchableOpacity
         style={Styles.ButtonContainer}
         onPress={() => {
-          console.log('Pressed Refresh');
+          onRefreshPressed();
         }}>
         <Text style={Styles.itemText}>{'Refresh'}</Text>
       </TouchableOpacity>

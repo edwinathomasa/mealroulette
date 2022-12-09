@@ -5,6 +5,16 @@ export let current_Meal_List = [];
 
 let total_meals = 0;
 
+let page = 0;
+
+export const get_page = () => {
+  return page;
+};
+
+export const set_page = page_number => {
+  page = page_number;
+};
+
 export const allMealUrl =
   'https://playground.devskills.co/api/rest/meal-roulette-app/meals';
 export const MealListUrl =
@@ -52,10 +62,10 @@ export const _fetchHomeMeallist = async () => {
   console.log(MealListUrl);
   return new Promise(async (resolve, reject) => {
     let response;
-    console.log(`${MealListUrl}0`);
-    let Url = MealListUrl + '0';
+    let pagenumb = page.toString();
+    let Url = MealListUrl + pagenumb;
     try {
-      response = await fetch(`${MealListUrl}0`, {
+      response = await fetch(Url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -71,19 +81,13 @@ export const _fetchHomeMeallist = async () => {
       if (response.status === 200) {
         console.log('2');
         let mealJson = await response.json();
-        console.log(mealJson);
         if (
           mealJson !== undefined ||
           mealJson !== null ||
           mealJson.length > 0
         ) {
-          console.log(mealJson.meal_roulette_app_meals_aggregate.nodes);
           current_Meal_List = mealJson.meal_roulette_app_meals_aggregate.nodes;
           current_Meal_Count = current_Meal_List.length;
-          for (let index = 0; index < current_Meal_List.length; index++) {
-            const element = current_Meal_List[index];
-            console.log(element.title);
-          }
           resolve(true);
         } else {
           resolve(false);
