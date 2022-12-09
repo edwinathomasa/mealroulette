@@ -57,7 +57,7 @@ const HomeScreen = ({state, navigation}) => {
           ' _fetchHomeMeallist_value ',
           _fetchHomeMeallist_value,
         );
-        set_ItemList(current_Meal_List);
+        await set_ItemList(current_Meal_List);
         await isLoading(false, 'Loading');
       });
     });
@@ -101,49 +101,57 @@ const HomeScreen = ({state, navigation}) => {
       />
       <Divider width={height * 0.02} color={mealGREY} />
       <View style={Styles.columnContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('Pressed item1');
-          }}
-          style={Styles.item}>
-          <MealItem
-            mealTitle={ItemList[0].title}
-            imageUri={ItemList[0].picture}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('Pressed item2');
-          }}
-          style={Styles.item}>
-          <MealItem
-            mealTitle={ItemList[1].title}
-            imageUri={ItemList[1].picture}
-          />
-        </TouchableOpacity>
+        {ItemList[0] !== undefined && (
+          <TouchableOpacity
+            onPress={() => {
+              console.log('Pressed item1');
+            }}
+            style={Styles.item}>
+            <MealItem
+              mealTitle={ItemList[0].title}
+              imageUri={ItemList[0].picture}
+            />
+          </TouchableOpacity>
+        )}
+        {ItemList[1] !== undefined && (
+          <TouchableOpacity
+            onPress={() => {
+              console.log('Pressed item2');
+            }}
+            style={Styles.item}>
+            <MealItem
+              mealTitle={ItemList[1].title}
+              imageUri={ItemList[1].picture}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       <Divider width={height * 0.02} color={mealGREY} />
       <View style={Styles.columnContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('Pressed item3');
-          }}
-          style={Styles.item}>
-          <MealItem
-            mealTitle={ItemList[2].title}
-            imageUri={ItemList[2].picture}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            console.log('Pressed item4');
-          }}
-          style={Styles.item}>
-          <MealItem
-            mealTitle={ItemList[3].title}
-            imageUri={ItemList[3].picture}
-          />
-        </TouchableOpacity>
+        {ItemList[2] !== undefined && (
+          <TouchableOpacity
+            onPress={() => {
+              console.log('Pressed item3');
+            }}
+            style={Styles.item}>
+            <MealItem
+              mealTitle={ItemList[2].title}
+              imageUri={ItemList[2].picture}
+            />
+          </TouchableOpacity>
+        )}
+        {ItemList[3] !== undefined && (
+          <TouchableOpacity
+            onPress={() => {
+              console.log('Pressed item4');
+            }}
+            style={Styles.item}>
+            <MealItem
+              mealTitle={ItemList[3].title}
+              imageUri={ItemList[3].picture}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       <Divider width={height * 0.04} color={mealGREY} />
 

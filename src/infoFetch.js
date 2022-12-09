@@ -59,7 +59,6 @@ export const _fetchAllMealinfo = async () => {
 };
 
 export const _fetchHomeMeallist = async () => {
-  console.log(MealListUrl);
   return new Promise(async (resolve, reject) => {
     let response;
     let pagenumb = page.toString();
