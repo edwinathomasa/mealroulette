@@ -6,10 +6,13 @@
  * @flow strict-local
  */
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import HomeScreen from './src/HomeScreen';
+import MealDetail from './src/MealDetail';
+import StartScreen from './src/StartScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,12 +20,14 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Start"
         screenOptions={{
           headerShown: false,
           animationEnabled: false,
         }}>
+        <Stack.Screen name="Start" component={StartScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Mealinfo" component={MealDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

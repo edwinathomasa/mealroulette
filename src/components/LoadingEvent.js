@@ -1,7 +1,7 @@
 import {Divider} from '@rneui/base';
 import React, {useState} from 'react';
 import {View, ActivityIndicator, Text} from 'react-native';
-import {Styles, width} from '../../styles/styles';
+import {mealWHITE, Styles, width} from '../../styles/styles';
 const LoadingEvent = props => {
   /**
    *
@@ -12,7 +12,7 @@ const LoadingEvent = props => {
 
   return (
     <View style={Styles.componentDisplayBackGroundScreen}>
-      <ActivityIndicator size={width * 0.5} color="#0000ff" />
+      <ActivityIndicator size={width * 0.5} color={mealWHITE} />
       <Text style={Styles.LoadingEventText}>{props.Textloading}</Text>
     </View>
   );

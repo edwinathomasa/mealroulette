@@ -5,7 +5,7 @@ import {
   View,
   ActivityIndicator,
   Platform,
-  BackHandler,
+  Image,
   Text,
   TouchableOpacity,
 } from 'react-native';
@@ -20,9 +20,8 @@ import {
   get_page,
   set_page,
 } from './infoFetch';
-import MealItem from './components/MealItem';
 
-const HomeScreen = ({state, navigation}) => {
+const HomeScreen = ({navigation}) => {
   let [spinner, set_spinner] = useState(false);
   let [spinnerText, set_spinnerText] = useState('');
   let [ItemList, set_ItemList] = useState([]);
@@ -32,10 +31,6 @@ const HomeScreen = ({state, navigation}) => {
     console.log('HomeScreen component mount');
     isLoading(true, 'Loading');
     collect_Initial_List();
-    return async () => {
-      // Anything in here is fired on component unmount.
-      console.log('HomeScreen component unmount');
-    };
   }, [collect_Initial_List]);
 
   /**
@@ -92,6 +87,13 @@ const HomeScreen = ({state, navigation}) => {
     }
   };
 
+  const onMealPressed = async id => {
+    navigation.navigate('Mealinfo', {
+      meal_ID: id,
+    });
+    console.log(id);
+  };
+
   return (
     <SafeAreaView style={Styles.container}>
       <StatusBar
@@ -104,25 +106,31 @@ const HomeScreen = ({state, navigation}) => {
         {ItemList[0] !== undefined && (
           <TouchableOpacity
             onPress={() => {
-              console.log('Pressed item1');
+              onMealPressed(ItemList[0].id);
             }}
             style={Styles.item}>
-            <MealItem
-              mealTitle={ItemList[0].title}
-              imageUri={ItemList[0].picture}
-            />
+            {ItemList[0].picture !== '' && (
+              <Image
+                style={Styles.mealItemImage}
+                source={{uri: ItemList[0].picture}}
+              />
+            )}
+            <Text style={Styles.mealItemImageText}>{ItemList[0].title}</Text>
           </TouchableOpacity>
         )}
         {ItemList[1] !== undefined && (
           <TouchableOpacity
             onPress={() => {
-              console.log('Pressed item2');
+              onMealPressed(ItemList[1].id);
             }}
             style={Styles.item}>
-            <MealItem
-              mealTitle={ItemList[1].title}
-              imageUri={ItemList[1].picture}
-            />
+            {ItemList[1].picture !== '' && (
+              <Image
+                style={Styles.mealItemImage}
+                source={{uri: ItemList[1].picture}}
+              />
+            )}
+            <Text style={Styles.mealItemImageText}>{ItemList[1].title}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -131,25 +139,31 @@ const HomeScreen = ({state, navigation}) => {
         {ItemList[2] !== undefined && (
           <TouchableOpacity
             onPress={() => {
-              console.log('Pressed item3');
+              onMealPressed(ItemList[2].id);
             }}
             style={Styles.item}>
-            <MealItem
-              mealTitle={ItemList[2].title}
-              imageUri={ItemList[2].picture}
-            />
+            {ItemList[2].picture !== '' && (
+              <Image
+                style={Styles.mealItemImage}
+                source={{uri: ItemList[2].picture}}
+              />
+            )}
+            <Text style={Styles.mealItemImageText}>{ItemList[2].title}</Text>
           </TouchableOpacity>
         )}
         {ItemList[3] !== undefined && (
           <TouchableOpacity
             onPress={() => {
-              console.log('Pressed item4');
+              onMealPressed(ItemList[3].id);
             }}
             style={Styles.item}>
-            <MealItem
-              mealTitle={ItemList[3].title}
-              imageUri={ItemList[3].picture}
-            />
+            {ItemList[3].picture !== '' && (
+              <Image
+                style={Styles.mealItemImage}
+                source={{uri: ItemList[3].picture}}
+              />
+            )}
+            <Text style={Styles.mealItemImageText}>{ItemList[3].title}</Text>
           </TouchableOpacity>
         )}
       </View>

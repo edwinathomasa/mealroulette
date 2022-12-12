@@ -3,6 +3,8 @@ export let All_Meal = [];
 export let current_Meal_Count = [];
 export let current_Meal_List = [];
 
+export let meal_info = null;
+
 let total_meals = 0;
 
 let page = 0;
@@ -19,6 +21,8 @@ export const allMealUrl =
   'https://playground.devskills.co/api/rest/meal-roulette-app/meals';
 export const MealListUrl =
   'https://playground.devskills.co/api/rest/meal-roulette-app/meals/limit/4/offset/';
+export const MealInfoUrl =
+  'https://playground.devskills.co/api/rest/meal-roulette-app/meals/';
 
 export const _fetchAllMealinfo = async () => {
   return new Promise(async (resolve, reject) => {
@@ -87,6 +91,48 @@ export const _fetchHomeMeallist = async () => {
         ) {
           current_Meal_List = mealJson.meal_roulette_app_meals_aggregate.nodes;
           current_Meal_Count = current_Meal_List.length;
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      } else {
+        resolve(false);
+      }
+    } else {
+      console.log('it is undefined');
+      resolve(false);
+    }
+  });
+};
+
+export const _fetchMealInfo = async id => {
+  return new Promise(async (resolve, reject) => {
+    let response;
+    let MealId = id.toString();
+    let Url = MealInfoUrl + MealId;
+    try {
+      response = await fetch(Url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+      });
+    } catch (error) {
+      console.log('error failed');
+      reject(error);
+    }
+
+    if (response !== undefined) {
+      console.log('1');
+      if (response.status === 200) {
+        console.log('2');
+        let mealJson = await response.json();
+        if (
+          mealJson !== undefined ||
+          mealJson !== null ||
+          mealJson.length > 0
+        ) {
+          meal_info = mealJson.meal_roulette_app_meals_by_pk;
           resolve(true);
         } else {
           resolve(false);
