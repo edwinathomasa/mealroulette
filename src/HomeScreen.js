@@ -8,6 +8,7 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 
 import {Divider} from '@rneui/themed';
@@ -47,14 +48,30 @@ const HomeScreen = ({navigation}) => {
   const collect_Initial_List = async () => {
     await _fetchAllMealinfo().then(async _fetchAllMealinfo_value => {
       await console.log(' _fetchAllMealinfo_value ', _fetchAllMealinfo_value);
-      await _fetchHomeMeallist().then(async _fetchHomeMeallist_value => {
-        await console.log(
-          ' _fetchHomeMeallist_value ',
-          _fetchHomeMeallist_value,
+      if (_fetchAllMealinfo_value) {
+        await _fetchHomeMeallist().then(async _fetchHomeMeallist_value => {
+          await console.log(
+            ' _fetchHomeMeallist_value ',
+            _fetchHomeMeallist_value,
+          );
+          if (_fetchHomeMeallist_value) {
+            await set_ItemList(current_Meal_List);
+            await isLoading(false, 'Loading');
+          } else {
+            Alert.alert(
+              'Error',
+              'Unable to Collect Food Information Check if network is available or contact admin',
+              [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+            );
+          }
+        });
+      } else {
+        Alert.alert(
+          'Error',
+          'Unable to Collect Food Information Check if network is available or contact admin',
+          [{text: 'OK', onPress: () => console.log('OK Pressed')}],
         );
-        await set_ItemList(current_Meal_List);
-        await isLoading(false, 'Loading');
-      });
+      }
     });
     /**/
   };

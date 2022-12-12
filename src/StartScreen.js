@@ -16,7 +16,7 @@ const StartScreen = ({navigation}) => {
         backgroundColor={mealWHITE}
       />
 
-      <Divider width={height * 0.04} color={mealGREY} />
+      <Divider width={height * 0.1} color={mealGREY} />
 
       <TouchableOpacity
         style={Styles.ButtonContainer}
